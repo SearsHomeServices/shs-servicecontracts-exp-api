@@ -1,0 +1,5 @@
+# this api's client id and secret to be used when authenticating to other apis.
+# replace with real values once deployed and added to api manager.
+api:
+  client_id: ""
+  client_secret: ""

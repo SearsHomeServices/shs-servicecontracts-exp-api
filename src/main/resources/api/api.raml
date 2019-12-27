@@ -1,0 +1,38 @@
+#%RAML 1.0
+baseUri: https://anypoint.mulesoft.com/mocking/api/v1/links/d2614587-00eb-4401-b435-731c2d478178/ # 
+title: Service Contracts Exp API
+version: 1.0
+mediaType: [ application/xml, application/json ]
+description: 
+uses:
+  SecuritySchemes: /exchange_modules/a0816b18-ae2e-49b8-945f-d0e5ce7c9732/shs-standard-security-schemes/1.0.0/shs-standard-security-schemes.raml
+  StandardErrors: /exchange_modules/a0816b18-ae2e-49b8-945f-d0e5ce7c9732/shs-standard-rest-experience-api-errors/1.0.0/shs-standard-rest-experience-api-errors.raml
+  HealthCheck: /exchange_modules/a0816b18-ae2e-49b8-945f-d0e5ce7c9732/shs-health-check/1.0.0/shs-health-check.raml
+  Headers: libraries/headers.raml
+  ServiceContracts: libraries/getAgreementDetails.raml
+securedBy: [ SecuritySchemes.clientIdEnforcement ]
+/:
+  type: HealthCheck.check
+  is: [ StandardErrors.errorHandler ]
+/getAgreementDetails:
+  description: resource to get agreement details
+  displayName: get Agreement Details
+  is:
+    - StandardErrors.errorHandler
+    - Headers.hasheaders
+  post:
+      description: getAgreementDetails
+      body:
+        application/json:
+          type: ServiceContracts.getAgreementDetailsRequest
+          example: !include examples/getAgreementDetailsRequest.json
+        application/xml:
+          example: !include examples/getAgreementDetailsRequest.xml
+      responses:
+        200:
+          body:
+            application/json:
+              type: ServiceContracts.getAgreementDetailsResponse
+              example: !include examples/getAgreementDetailsResponse.json
+            application/xml:
+              example: !include examples/getAgreementDetailsResponse.xml          

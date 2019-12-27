@@ -1,0 +1,30 @@
+api:
+  id: "123456" # replace with real id once added to api manager
+
+http:
+  host: "0.0.0.0"
+  basePath: "/v1/*"
+  private:
+    port: "8092"
+  timeouts:
+    connection: "30000"
+    response: "30000"
+
+reconnection:
+  frequency: "500"
+  attempts: "3"
+
+json:
+  logger:
+    application:
+      name: "${project.artifactId}"
+      version: "${project.version}"
+    disabledFields: "content"
+
+notifications:
+  host: "api.searshc.com"
+  port: "443"
+  path: "/notifications"
+  basePath: "/shs-notification-svc/v1"
+  emailSubject: "Example Email Subject"
+  

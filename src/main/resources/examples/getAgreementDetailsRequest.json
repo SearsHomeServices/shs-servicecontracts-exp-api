@@ -1,0 +1,14 @@
+{
+   "Header": null,
+   "Body": {
+      "agreementDetailsRequest": {
+         "client": "NPJ",
+         "password": "CIB",
+         "user": "CIB",
+         "version": "01",
+         "requestId": "test",
+         "custNum": "1260221866",
+         "agmtSfx": "0001"
+      }
+   }
+}

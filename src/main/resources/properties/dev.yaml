@@ -1,0 +1,44 @@
+api:
+  id: "15934845" # replace with real id once added to api manager
+
+http:
+  host: "0.0.0.0"
+  basePath: "/v1/*"
+  private:
+    port: "8092"
+  timeouts:
+    connection: "30000"
+    response: "30000"
+
+reconnection:
+  frequency: "500"
+  attempts: "3"
+
+https:
+  private:
+    port: "8092"
+    
+json:
+  logger:
+    application:
+      name: "${project.artifactId}"
+      version: "${project.version}"
+    disabledFields: "content"
+
+notifications:
+  host: "api.searshc.com"
+  port: "443"
+  path: "/notifications"
+  basePath: "/shs-notification-svc-dev/v1"
+  emailSubject: "Example Email Subject"
+
+parts-proxy:
+  host: "api-test.aws.transformco.com"
+  port: "443"
+  basePath: "/shs-proxy-api-dev/v1/serviceContracts"  
+  
+key:
+  path: "keystore.jks"
+  alias: "apitransformco"
+trust:
+  path: "nonprod_cloud_truststore.jks"  

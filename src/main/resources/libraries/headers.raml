@@ -1,0 +1,46 @@
+#%RAML 1.0 Library
+usage:
+
+traits:
+  hasheaders:
+    headers:
+        Content-type: 
+          displayName: Content-type
+          description: either xml or json
+          type: string
+          required: false
+        Accept: 
+          displayName: Accept
+          description: field can be used to specify certain media types which are acceptable for the response
+          #type: string
+          required: false
+        client_id:
+            displayName: client_id
+            description: clientid assigned by Sears.
+            type: string
+            required: false
+            example: vhjfqugcbt346868jtrgue
+        client_secret:
+          displayName: client_secret
+          description: This can be used along with the sears client_id to validate the requestor. 
+          type: string
+          required: false
+          example: guybguywTFXE6638738b6eu
+        userid:
+          displayName: userid
+          description: Logged in user id
+          type: string
+          required: false
+          example: smcinti
+        clientid:
+            description:  logged in user for the client of sears
+            type: string
+            required: false
+            example: commhub
+        sourceid:
+            description:  source where the request is originated
+            type: string
+            required: false
+            example: salesforce 
+
+

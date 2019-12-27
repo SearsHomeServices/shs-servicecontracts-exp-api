@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:api-gateway="http://www.mulesoft.org/schema/mule/api-gateway" xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:json-logger="http://www.mulesoft.org/schema/mule/json-logger" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd         http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd         http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd         http://www.mulesoft.org/schema/mule/api-gateway http://www.mulesoft.org/schema/mule/api-gateway/current/mule-api-gateway.xsd         http://www.mulesoft.org/schema/mule/json-logger http://www.mulesoft.org/schema/mule/json-logger/current/mule-json-logger.xsd">
+    <!-- Leave these configs here so that the apikit code generator knows where to put content -->
+    <apikit:config name="api-config" api="api.raml" raml="api.raml" outboundHeadersMapName="outboundHeaders" httpStatusVarName="httpStatus" disableValidations="true"/>
+    <http:listener-config name="httpListenerConfig">
+        <http:listener-connection host="${http.host}" port="${https.private.port}" tlsContext="Keystore" protocol="HTTPS" />
+    </http:listener-config>
+    <api-gateway:autodiscovery apiId="${api.id}" doc:name="API Autodiscovery" flowRef="api-main" />
+    <flow name="api-main">
+        <http:listener config-ref="httpListenerConfig" path="${http.basePath}">
+            <http:response statusCode="#[vars.httpStatus default 200]" />
+            <http:error-response statusCode="#[vars.httpStatus default 500]">
+                <http:body><![CDATA[#[payload]]]></http:body>
+            </http:error-response>
+        </http:listener>
+        <set-variable value='#[output application/json
+ var contentType = lower(attributes.headers."Content-Type")
+var acceptType = lower(attributes.headers.accept)
+ ---  
+ {  
+ 	inputType: contentType,  
+ 	outputType: if(acceptType == "application/json") "application/json"    
+ 	else if(acceptType == "application/xml") "application/xml"     
+ 	else contentType,
+service: (attributes.requestUri splitBy("/"))[2]  	
+ }]' doc:name="Identifiers" doc:id="d306ad95-d102-419e-b955-6749a761c4f7" variableName="identifier"/>
+		<apikit:router config-ref="api-config" />
+        <error-handler ref="api-error-handler" />
+    </flow>
+    <flow name="get:\:api-config">
+        <json-logger:logger doc:name="Start" config-ref="JsonLoggerConfig" message="Starting flow" />
+        <flow-ref doc:name="health-check" name="health-check" />
+        <json-logger:logger doc:name="End" config-ref="JsonLoggerConfig" tracePoint="END" message="End flow" />
+    </flow>
+    <flow name="post:\getAgreementDetails">
+        <json-logger:logger doc:name="Logger" doc:id="536e4674-0b68-4755-b2eb-900c8b4a0c72" message="Starting flow"/>
+		<flow-ref doc:name="service-contracts" doc:id="ef2f8622-61ad-4b51-8062-8a2a98cb79b5" name="service-contractsFlow"/>
+		<json-logger:logger doc:name="Logger" doc:id="050ca9f1-05ae-419f-9e43-20b9f2977f46" config-ref="JsonLoggerConfig" tracePoint="END" message="End flow"/>
+    </flow>
+</mule>

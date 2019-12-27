@@ -1,0 +1,16 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:req="http://request.domain.agreementservice.agreement.hs.searshc.com">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <req:agreementDetailsRequest>
+         <client>NPJ</client>
+         <password>CIB</password>
+         <user>CIB</user>
+         <version>01</version>
+         <requestId>test</requestId>
+         <!--Optional:-->
+         <custNum>1260221866</custNum>
+         <!--Optional:-->
+         <agmtSfx>0001</agmtSfx>
+      </req:agreementDetailsRequest>
+   </soapenv:Body>
+</soapenv:Envelope>

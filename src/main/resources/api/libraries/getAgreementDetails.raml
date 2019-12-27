@@ -1,0 +1,412 @@
+#%RAML 1.0 Library
+usage: Library for serviceContracts dataType
+
+types:
+  getAgreementDetailsRequest:
+    type:  object
+    properties:
+         agreementDetailsRequest:
+            type: object
+            properties:
+             client?:
+              type:  string
+              description: "client"
+              example: "NPJ"
+             password?:
+               type: string
+               description: "password"
+               example: "CIB"              
+             user?:
+               type: string
+               description: "user"
+               example: "CIB"
+             version?:
+               type: string
+               description: "version"
+               example: "01"
+             requestId?:
+              type: string
+              description: "requestId"
+              example: "test"
+             custNum?:
+               type: string
+               description: "custNum"
+               example: "1260221866"
+             agmtSfx?:
+               type:
+               description: "agmtSfx"
+               example: "0001"
+  getAgreementDetailsResponse: 
+    type: object
+    properties:
+         agreementDetailsReturn:
+           type: object
+           properties:
+              code?:
+                type: string
+                description: "code"
+                example: "00"
+              messages?:
+                type: string
+                description: "messages"
+                example: "SUCCESS"
+              processId?:
+                type: nil | string
+              serverName:
+                type: nil| string  
+              subCode:
+                type: nil | string  
+              details:
+                type: object
+                properties:
+                  addlAmtAddItems?:
+                    type: string
+                    description: "addlAmtAddItems"
+                    example: "+0000000"
+                  addlCharge?:
+                    type: string
+                    description: "addlCharge" 
+                    example: "+0000000"
+                  agreePayment?:
+                    type: object
+                    properties:
+                      accountNo?:
+                        type : string
+                        description: "accountNo"
+                        example: "123456******4567"
+                      creditCardExp?:
+                        type: string
+                      creditCardTokenNo?:
+                        type: string
+                        description: "creditCardTokenNo"
+                        example: "1234567891234567"
+                      paymentAmount?:
+                        type: string
+                        description:  "paymentAmount"
+                        example: "+000001234"
+                      paymentType?:
+                        type: string
+                        description: "paymentType"
+                        example: "MC"
+                      salesAuthNo?:
+                        type: string
+                        description: "salesAuthNo" 
+                        example: "+0022162"
+                      totalRefundAmount?:
+                        type: string
+                        description: "totalRefundAmount" 
+                        example: "0" 
+                  allowAmt?:
+                    type: string
+                    description: "allowAmt"
+                    example: "+000000000"
+                  allowCd?:
+                    type: string
+                    description: "allowCd"
+                    example: ""
+                  apUpdateAuthInd?:
+                    type: string
+                    description: "apUpdateAuthInd"
+                    example: "2"
+                  billAddrLocNo?: 
+                   type: "string"
+                   description: "billAddrLocNo"
+                   example: "0000"
+                  billContactRecNo?:
+                    type: "string" 
+                    description: "billContactRecNo"
+                    example: "0000"
+                  campaignDiscAmt?:
+                    type: string
+                    description: "campaignDiscAmt"
+                    example: "+0000000"
+                  campaignId?:
+                    type: string
+                    description: "campaignId"
+                    example: "000009999"
+                  cancelInd?:
+                    type: string
+                    description: "cancelInd"
+                    example: "N"
+                  capDiscAmt?:
+                    type: string
+                    description:  
+                    example: "+0000000"
+                  cashAmt?:
+                    type: string
+                    description: "cashAmt"
+                    example: "+000000000"
+                  cashRcvdAmt?:
+                    type: string
+                    description: "cashRcvdAmt"
+                    example: '+0000000'
+                  chargeBackInd?:
+                    type: string
+                    description: "chargeBackInd"
+                    example: "N" 
+                  comment1?:
+                    type: string
+                    description: "comment1"
+                    example: "first sale in TeleService"
+                  comment2?:
+                    type: string
+                    description: "comment2"
+                    example: "" 
+                  comment3:
+                    type: string
+                    description: "comment3"
+                    example: ""                     
+                  contactMethodInd?:
+                    type: string
+                    description: "contactMethodInd"
+                    example: ""                     
+                  contactName?:
+                    type: string
+                    description: "contactName"
+                    example: "test"
+                  couponAmt?:
+                    type: string
+                    description: "couponAmt"
+                    example: "+000000000"
+                  couponCd?:
+                    type: string
+                    description: "couponCd"
+                    example: ""                    
+                  couponTaxInd?:
+                    type: string
+                    description: "couponTaxInd"
+                    example: ""                         
+                  coverCreditAmt?:
+                    type: string
+                    description: "coverCreditAmt"
+                    example: "+000000000"
+                  coverCreditTaxAmt?:
+                    type : string
+                    description: "coverCreditTaxAmt"
+                    example: "+000000000"
+                  coverNoDollarInd?:
+                    type : string
+                    description: "coverNoDollarInd"
+                    example: "N"
+                  coverageMonths?:
+                    type: string
+                    description: "coverageMonths"
+                    example: "+012"
+                  creditAmt?:
+                    type: string
+                    description: "creditAmt" 
+                    example: "+000005999"
+                  empActSale?:
+                    type: string
+                    description: "empActSale"
+                    example: "+0011114"
+                  empDiscAmt?:
+                    type: string
+                    description: "empDiscAmt"
+                    example: "+0000000"                  
+                  empNps?:
+                    type: string
+                    description: "empNps"
+                    example: "+0011114"
+                  expireDate?:
+                    type: string
+                    description: "expireDate"
+                    example: "2020-06-11"
+                  installmentIndicator?:
+                    type: string
+                    description: "installmentIndicator"
+                    example:  "N"
+                  itemCnt?:
+                    type: string
+                    description: "itemCnt"
+                    example: "000000001"
+                  jurisdCityCd?:
+                    type: string
+                    description: "jurisdCityCd"
+                    example: ""
+                  jurisdCitySpecCd?:
+                    type: string
+                    description: "jurisdCitySpecCd"
+                    example: ""                   
+                  jurisdCountryCd?:
+                    type: string
+                    description: "jurisdCountryCd"
+                    example: ""                      
+                  jurisdCountrySpecCd?:
+                    type: string
+                    description: "jurisdCitySpecCd"
+                    example: ""                      
+                  jurisdOtherCd?:
+                    type: string
+                    description: "jurisdOtherCd"
+                    example: ""                      
+                  jurisdSpecCd?:
+                    type : string
+                    description: "jurisdSpecCd"
+                    example: ""                      
+                  jurisdTransitCd?:
+                    type : string
+                    description: "jurisdCitySpecCd"
+                    example: ""                      
+                  leadType?:
+                    type: string
+                    description: "leadType"
+                    example: "CIAQ"
+                  locNo?:
+                    type: string
+                    description: "locNo"
+                    example: "001"
+                  marketUnitActSale?:
+                    type: string
+                    description: "marketUnitActSale"
+                    example: "0009420"
+                  monthAmt?:
+                    type: string
+                    description: "monthAmt"
+                    example: "+000499916"
+                  monthTaxAmt?:
+                    type: string
+                    description: "monthTaxAmt"
+                    example: "+000000000"
+                  origExpireDate?:
+                    type: string
+                    description: "origExpireDate"
+                    example: "2020-06-11"
+                  otherDiscAmt?:
+                    type: string
+                    description: "otherDiscAmt"
+                    example: "+0000000"
+                  otherDiscInd?:
+                    type: string
+                  paymentMethodInd?:
+                    type: string
+                    description: "paymentMethodInd"
+                    example: "7"
+                  paymentTypeInd?:
+                    type: string
+                    description: "paymentTypeInd"
+                    example: "S"
+                  planDiscAmt?:
+                    type: string
+                    description: "planDiscAmt"
+                    example: "+0000000"
+                  posFl?:
+                    type: string
+                    description: "posFl"
+                    example:  "Y"
+                  priceOriginInd?: 
+                    type: string
+                    description: "priceOriginInd"
+                    example: "N"                     
+                  productCd?:
+                    type: string
+                    description: "productCd"
+                    example: "PA1"                     
+                  productPlanCd?:
+                    type: string
+                    description: "productPlanCd"
+                    example: "SAM"                   
+                  productType?:
+                    type: string
+                    description: "productType"
+                    example:  "SGL"                    
+                  purchaseAmt?:
+                    type: string
+                    description: "+000005999"
+                    example: "000005999"                 
+                  purchaseDate?:
+                    type: string
+                    description: "purchaseDate"
+                    example: "2019-06-11"                
+                  purchaseTaxAmt?:
+                     type: string
+                     description: "purchaseTaxAmt"
+                     example: "+0000000"                 
+                  purchaser?:
+                    type: string
+                    description: "purchaser"
+                    example:  "+000000000"               
+                  refundAmt?:
+                    type: string
+                    description: "refundAmt"
+                    example:  "+000000000"               
+                  refundCoverCreditAmt?:
+                    type: string
+                    description: "refundCoverCreditAmt"
+                    example: "+000000000"                
+                  refundTaxAmt?:
+                    type: string
+                    description: "refundTaxAmt"
+                    example: "+000000000"                
+                  refundTaxCreditAmt?:
+                    type: string
+                    description: "refundTaxCreditAmt"
+                    example: "+0000000"                  
+                  registerNo?:
+                    type: string
+                    description: "registerNo"
+                    example: "389"                       
+                  remainingInstallments?:
+                    type: string
+                    description: "remainingInstallments"
+                    example: "0"                         
+                  salesMarketUnitNo?:
+                    type: string
+                    description: "salesMarketUnitNo"
+                    example: "0009420"                   
+                  sellingPrice?:
+                    type: string
+                    description: "sellingPrice"
+                    example:  "+000005999"               
+                  startDate?:
+                    type: string
+                    description: "startDate" 
+                    example: "2019-06-11"                
+                  subLeadCat?:
+                    type: string
+                    description: "subLeadCat"
+                    example: "SGL"                       
+                  sywrMemID?:
+                    type: string
+                  taxCountyCd?:
+                    type: string
+                    description: "taxCountyCd"
+                    example: "085"                       
+                  taxExemptData?:
+                    type : string
+                  taxGeoCd?:
+                    type: string
+                    description: "taxGeoCd"
+                    example: "00"                        
+                  taxRefundInd?:
+                    type: string
+                    description: "taxRefundInd"
+                    example: "N"                         
+                  transDate?:
+                    type: string
+                    description: "transDate"
+                    example: "2019-06-11"                
+                  transNo?:
+                    type: string
+                    description: "transNo"
+                    example: "2168"                      
+                  unitActSale?:
+                    type: string
+                    description: "unitActSale"
+                    example: "009420"                    
+                  unitAllocSale?:
+                    type: string
+                    description: "unitAllocSale"
+                    example: "008398"                    
+                  unitNps?:
+                    type: string
+                    description: "unitNps"
+                    example: "009420"                    
+                  unitPosSale?:
+                    type: string
+                    description: "unitPosSale" 
+                    example: "009420"
+                  updateCnt?: 
+                    type: string
+                    description: "updateCnt" 
+                    example: "0"                          

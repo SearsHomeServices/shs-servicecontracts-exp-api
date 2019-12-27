@@ -1,0 +1,122 @@
+#%RAML 1.0 Library
+usage: This library defines the standard error response trait and type.
+
+types:
+  Error:
+    type: object
+    description: Standard API Error Response
+    properties:
+      CorrelationId:
+        type: string
+        required: false
+        example: "1234567890"
+      ResponseCode:
+        type: string
+        required: false
+        example: "08"
+      ResponseMessage:
+        type: string
+        required: false
+        example: "DATA VALIDATION"
+      messages:
+        type: array
+        required: false
+        example: ["Error validating response"]
+      
+traits:
+  errorHandler:
+    responses:
+        400:
+          description: "Bad Request"
+          body:
+            application/json:
+              type: Error
+              example: |
+                {
+                  "CorrelationId": "354345345346",
+                  "ResponseCode": "08",
+                  "ResponseMessage": "DATA VALIDATION",
+                  "messages": ["Specific error description here"]
+                }
+        404:
+          description: "Resource Not Found"
+          body:
+            application/json:
+              type: Error
+              example: |
+                {
+                  "CorrelationId": "354345345346",
+                  "ResponseCode": "02",
+                  "ResponseMessage": "NO DATA FOUND",
+                  "messages": ["Specific error description here"]
+                }          
+        405:
+          description: "Method Not Allowed"
+          body:
+            application/json:
+              type: Error
+              example: |
+                {
+                  "CorrelationId": "354345345346",
+                  "ResponseCode": "04",
+                  "ResponseMessage": "WARNING",
+                  "messages": ["Specific error description here"]
+                } 
+        406:
+          description: "Not Acceptable"
+          body:
+            application/json:
+              type: Error              
+              example: |
+                {
+                  "CorrelationId": "354345345346",
+                  "ResponseCode": "06",
+                  "ResponseMessage": "Not acceptable",
+                  "messages": ["Specific error description here"]
+                } 
+        408:
+          description: "Connection Timeout"
+          body:
+            application/json:
+              type: Error
+              example: |
+                {
+                  "CorrelationId": "354345345346",
+                  "ResponseCode": "12",
+                  "ResponseMessage": "Time Out",
+                  "messages": ["Specific error description here"]
+                } 
+        415:
+          description: "Unsupported Media Type"
+          body:
+            application/json:
+              type: Error
+              example: |
+                {
+                  "CorrelationId": "354345345346",
+                  "ResponseCode": "08",
+                  "ResponseMessage": "Unsupported media type",
+                  "messages": ["Specific error description here"]
+                } 
+        500:
+          body:
+            application/json:
+              type: Error
+              example: |
+                {
+                  "CorrelationId": "354345345346",
+                  "ResponseCode": "12",
+                  "ResponseMessage": "SYSTEM ERROR",
+                  "messages": ["Specific error description here"]
+                } 
+        501:
+          body:
+            application/json:
+              type: Error
+              example: |
+                {
+                  "CorrelationId": "354345345346",
+                  "ResponseCode": "02",
+                  "ResponseMessage": "Not Implemented",
+                  "messages": ["Specific error description here"]
+                } 

@@ -1,0 +1,12 @@
+# this api's client id and secret to be used when authenticating to other apis.
+# replace with real values once deployed and added to api manager.
+api:
+  client_id: ""
+  client_secret: ""
+  
+keystore:
+  keyPwd: "![6bWQbS6DHg97y+M08KxRdg==]"
+  pwd: "![6bWQbS6DHg97y+M08KxRdg==]"
+
+truststore:
+  pwd: "![6bWQbS6DHg97y+M08KxRdg==]"  

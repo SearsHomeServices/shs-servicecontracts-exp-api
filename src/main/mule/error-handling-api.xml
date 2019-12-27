@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:json-logger="http://www.mulesoft.org/schema/mule/json-logger" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/json-logger http://www.mulesoft.org/schema/mule/json-logger/current/mule-json-logger.xsd">
+
+	<error-handler name="api-error-handler">
+		<on-error-propagate type="APIKIT:BAD_REQUEST" enableNotifications="true" logException="true">
+			<ee:transform doc:id="cc9da16b-cd74-4a22-9635-e7f72a18fd42">
+				<ee:variables>
+					<ee:set-variable variableName="httpStatus" ><![CDATA[%dw 2.0
+output application/json
+---
+400
+	]]></ee:set-variable>
+				</ee:variables>
+			</ee:transform>
+			<set-payload value="     " doc:name="Set Payload" doc:id="6933b20b-730c-4c8f-804b-190f39eaf334" />
+		</on-error-propagate>
+<on-error-propagate type="HTTP:BAD_REQUEST,HTTP:NOT_FOUND,HTTP:INTERNAL_SERVER_ERROR" enableNotifications="true" logException="true">
+			<set-payload value="#[error.exception.cause.errorMessage.typedValue]" doc:name="Set Payload" doc:id="6cd0c93f-b0ff-4cf9-9347-ce49f8522de9" />
+			<set-variable value="#[error.exception.cause.errorMessage.typedAttributes.statusCode]" doc:name="Set Variable" doc:id="9b421eb9-6db7-4f82-8a33-497350f04af0" variableName="httpStatus" />
+		</on-error-propagate>		
+		
+		<on-error-propagate type="APIKIT:NOT_FOUND" enableNotifications="true" logException="true">
+			<ee:transform doc:id="c21a6410-0608-449f-aaae-780a5d3cd279">
+				<ee:variables>
+					<ee:set-variable variableName="httpStatus" ><![CDATA[%dw 2.0
+output application/java 
+---
+404
+	]]></ee:set-variable>					
+				</ee:variables>
+			</ee:transform>
+			<set-payload value="     " doc:name="Set Payload" doc:id="5e86b8d0-f550-4f55-a9d2-867aab7a6b71" />
+		</on-error-propagate>
+		<on-error-propagate type="APIKIT:METHOD_NOT_ALLOWED" enableNotifications="true" logException="true">
+			<ee:transform doc:name="Transform Message" doc:id="c8fa20f0-0a25-4ba5-8b3a-f4877ba72d51" >
+				<ee:message >
+				</ee:message>
+				<ee:variables >
+					<ee:set-variable variableName="httpStatus" ><![CDATA[%dw 2.0
+output application/java
+---
+ 405
+
+]]></ee:set-variable>
+				</ee:variables>
+			</ee:transform>
+			<set-payload doc:name="Set Payload" doc:id="aa0c2c12-0bfc-4e79-bd02-d8669f7b1b2d" value="        "/>
+		</on-error-propagate>
+		<on-error-propagate type="APIKIT:NOT_ACCEPTABLE" enableNotifications="true" logException="true">
+			<ee:transform doc:id="5b44f714-e894-453d-98b5-f23d3ec7aa1c">
+				<ee:variables>
+					<ee:set-variable variableName="httpStatus" ><![CDATA[%dw 2.0
+output application/json 
+---
+ 406
+	]]></ee:set-variable>
+				</ee:variables>
+			</ee:transform>
+			<set-payload doc:name="Set Payload" doc:id="d8d0b292-0cec-40d5-8188-5d321af0f817" value="                                                    "/>
+		</on-error-propagate>
+		<on-error-propagate type="APIKIT:UNSUPPORTED_MEDIA_TYPE">
+			<ee:transform doc:id="9b6ce422-0f87-40a2-b0ed-cba877d3197c">
+				<ee:variables>
+					<ee:set-variable variableName="httpStatus" ><![CDATA[%dw 2.0
+output application/json 
+---
+
+ 415
+	]]></ee:set-variable>
+				</ee:variables>
+			</ee:transform>
+			<set-payload value="             " doc:name="Set Payload" doc:id="4b56bf21-263b-40c0-a173-953d6bcc1b6e" />
+		</on-error-propagate>
+		<on-error-propagate type="APIKIT:NOT_IMPLEMENTED"
+			doc:name="On Error Propagate" enableNotifications="true"
+			logException="true">
+			<ee:transform doc:id="cd018f6e-68de-478b-a268-20a6d644c930">
+				<ee:variables>
+					<ee:set-variable variableName="httpStatus" ><![CDATA[%dw 2.0
+output application/json 
+---
+501
+	
+	]]></ee:set-variable>
+				</ee:variables>
+			</ee:transform>
+			<set-payload value="             " doc:name="Set Payload" doc:id="66a7ce72-2970-467a-a2bb-a467e64dd2d3" />
+		</on-error-propagate>
+		
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="4bef5244-6c4b-49df-bdde-32d413f304e8" type="EXPRESSION">
+			<json-logger:logger doc:name="Log  Error" config-ref="JsonLoggerConfig" priority="ERROR" tracePoint="EXCEPTION" message="#[&quot;Transformation error: &quot; ++ write(error.description, &quot;application/json&quot;)]" doc:id="1cb75794-82a8-4ae8-a1ab-af9aef8b9f16"/>
+			<ee:transform doc:name="Transform Message" doc:id="0277b112-da73-49a6-b0f0-106dee91899f">
+				<ee:variables >
+					<ee:set-variable variableName="httpStatus" ><![CDATA[%dw 2.0
+output application/json 
+---
+500
+	]]></ee:set-variable>
+				</ee:variables>
+			</ee:transform>
+			<set-payload value="             " doc:name="Set Payload" doc:id="ea0956ef-daf0-4521-93fd-c3591a204dbf" />
+		</on-error-propagate>
+		
+		<on-error-propagate enableNotifications="true"
+			logException="true" doc:name="On Error Propagate" doc:id="e80b4d60-6310-49cb-bdd3-998b9a138966">
+			<ee:transform doc:id="a51d27a1-c14d-41aa-92d0-256af979d7e4">
+				<ee:variables>
+					<ee:set-variable variableName="httpStatus" ><![CDATA[%dw 2.0
+output application/json 
+---
+500
+	
+
+]]></ee:set-variable>
+				</ee:variables>
+			</ee:transform>
+			<set-payload value="          " doc:name="Set Payload" doc:id="450f18c6-1dcc-4b16-a551-36c59561a137" />
+		</on-error-propagate>		
+
+	</error-handler>
+</mule>

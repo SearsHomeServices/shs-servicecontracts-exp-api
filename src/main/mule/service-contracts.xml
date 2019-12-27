@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns:json-logger="http://www.mulesoft.org/schema/mule/json-logger"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/json-logger http://www.mulesoft.org/schema/mule/json-logger/current/mule-json-logger.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<sub-flow name="service-contractsFlow" doc:id="502cdded-b486-4e09-b7e7-f7ceba18f606" >
+		<set-payload doc:name="Set Payload" doc:id="66bebd4e-03f4-42ab-9aac-6bd194643e46" value="#[output application/xml
+---
+if(vars.identifier.inputType=='application/json')
+do {
+  ns soapenv http://schemas.xmlsoap.org/soap/envelope/
+  ---
+  {
+    soapenv#Envelope: {
+      soapenv#Header: null,
+      soapenv#Body: do {
+        ns req http://request.domain.agreementservice.agreement.hs.searshc.com
+        ---
+        {
+          req#agreementDetailsRequest: {
+            client: payload.agreementDetailsRequest.client,
+            password: payload.agreementDetailsRequest.password,
+            user: payload.agreementDetailsRequest.user,
+            version: payload.agreementDetailsRequest.version,
+            requestId: payload.agreementDetailsRequest.requestId,
+            custNum: payload.agreementDetailsRequest.custNum,
+            agmtSfx: payload.agreementDetailsRequest.agmtSfx
+          }
+        }
+      }
+    }
+  }
+}
+else payload]"/>
+		<json-logger:logger doc:name="Logger" doc:id="c5ca1226-dcec-4eb5-8c75-27741ea1858d" config-ref="JsonLoggerConfig" tracePoint="BEFORE_REQUEST" message="Before Calling  proxy API" priority="DEBUG"/>
+		<http:request method="POST" doc:name="Call Proxy API" doc:id="9021c827-d10c-4cea-a185-7c0f928a6ae8" path="#[vars.identifier.service]" sendCorrelationId="ALWAYS" correlationId="#[vars.correlationId]" responseTimeout="${http.timeouts.response}" config-ref="HTTP_Request_configuration_parts-proxy">
+			<http:headers><![CDATA[#[output application/java
+---
+{
+	"clientid" : vars.identifier.clientid,
+	"userid" : vars.identifier.userid
+}]]]></http:headers>
+			<http:query-params><![CDATA[#[output application/java
+---
+{
+	"Key" : "Value"
+}]]]></http:query-params>
+		</http:request>
+		<json-logger:logger doc:name="" doc:id="f2118dda-ae57-4028-9ab1-cac7847aebfa" config-ref="JsonLoggerConfig" priority="DEBUG" tracePoint="AFTER_REQUEST" message="After Calling  proxy API"/>
+		<flow-ref doc:name="Final Response" doc:id="098d223a-1622-4f14-a75b-08fe2700a3d7" name="final-response" />
+	
+</sub-flow>
+	<sub-flow name="final-response" doc:id="53ba1ec0-d5ad-47ba-9799-0c162b231631">
+		<choice doc:name="Choice Base to Check Response Type" doc:id="64846945-42c6-49d8-bc95-f9ea5fe9c7f3">
+			<when expression='#[vars.identifier.outputType == "application/json"]' doc:id="6c957a25-3bb1-45cf-a684-bcbf5e67eb81">
+				<json-logger:logger doc:name="Before Transform" doc:id="300414b2-3372-45dd-a21a-fba6f268ad26" config-ref="JsonLoggerConfig" priority="DEBUG" tracePoint="BEFORE_TRANSFORM" message="Before Transform" />
+				<ee:transform doc:name="Transform Message" doc:id="abb6b56b-9d9f-4f20-839a-a68a07478d00">
+					<ee:message>
+						<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+ns ns0 http://response.domain.agreementservice.agreement.hs.searshc.com
+---
+{
+		agreementDetailsReturn: {
+			code: payload.Envelope.Body.agreementDetailsReturn.code,
+			messages: payload.Envelope.Body.agreementDetailsReturn.messages,
+			processId: payload.Envelope.Body.agreementDetailsReturn.processId,
+			serverName: payload.Envelope.Body.agreementDetailsReturn.serverName,
+			subCode: payload.Envelope.Body.agreementDetailsReturn.subCode,
+			details: {
+				addlAmtAddItems: payload.Envelope.Body.agreementDetailsReturn.details.addlAmtAddItems,
+				addlCharge: payload.Envelope.Body.agreementDetailsReturn.details.addlCharge,
+				agreePayment: {
+					accountNo: payload.Envelope.Body.agreementDetailsReturn.details.agreePayment.accountNo,
+					creditCardExp: payload.Envelope.Body.agreementDetailsReturn.details.agreePayment.creditCardExp,
+					creditCardTokenNo: payload.Envelope.Body.agreementDetailsReturn.details.agreePayment.creditCardTokenNo,
+					paymentAmount: payload.Envelope.Body.agreementDetailsReturn.details.agreePayment.paymentAmount,
+					paymentType: payload.Envelope.Body.agreementDetailsReturn.details.agreePayment.paymentType,
+					salesAuthNo: payload.Envelope.Body.agreementDetailsReturn.details.agreePayment.salesAuthNo,
+					totalRefundAmount: payload.Envelope.Body.agreementDetailsReturn.details.agreePayment.totalRefundAmount
+				},
+				allowAmt: payload.Envelope.Body.agreementDetailsReturn.details.allowAmt,
+				allowCd: payload.Envelope.Body.agreementDetailsReturn.details.allowCd,
+				apUpdateAuthInd: payload.Envelope.Body.agreementDetailsReturn.details.apUpdateAuthInd,
+				billAddrLocNo: payload.Envelope.Body.agreementDetailsReturn.details.billAddrLocNo,
+				billContactRecNo: payload.Envelope.Body.agreementDetailsReturn.details.billContactRecNo,
+				campaignDiscAmt: payload.Envelope.Body.agreementDetailsReturn.details.campaignDiscAmt,
+				campaignId: payload.Envelope.Body.agreementDetailsReturn.details.campaignId,
+				cancelInd: payload.Envelope.Body.agreementDetailsReturn.details.cancelInd,
+				capDiscAmt: payload.Envelope.Body.agreementDetailsReturn.details.capDiscAmt,
+				cashAmt: payload.Envelope.Body.agreementDetailsReturn.details.cashAmt,
+				cashRcvdAmt: payload.Envelope.Body.agreementDetailsReturn.details.cashRcvdAmt,
+				chargeBackInd: payload.Envelope.Body.agreementDetailsReturn.details.chargeBackInd,
+				comment1: payload.Envelope.Body.agreementDetailsReturn.details.comment1,
+				comment2: payload.Envelope.Body.agreementDetailsReturn.details.comment2,
+				comment3: payload.Envelope.Body.agreementDetailsReturn.details.comment3,
+				contactMethodInd: payload.Envelope.Body.agreementDetailsReturn.details.contactMethodInd,
+				contactName: payload.Envelope.Body.agreementDetailsReturn.details.contactName,
+				couponAmt: payload.Envelope.Body.agreementDetailsReturn.details.couponAmt,
+				couponCd: payload.Envelope.Body.agreementDetailsReturn.details.couponCd,
+				couponTaxInd: payload.Envelope.Body.agreementDetailsReturn.details.couponTaxInd,
+				coverCreditAmt: payload.Envelope.Body.agreementDetailsReturn.details.coverCreditAmt,
+				coverCreditTaxAmt: payload.Envelope.Body.agreementDetailsReturn.details.coverCreditTaxAmt,
+				coverNoDollarInd: payload.Envelope.Body.agreementDetailsReturn.details.coverNoDollarInd,
+				coverageMonths: payload.Envelope.Body.agreementDetailsReturn.details.coverageMonths,
+				creditAmt: payload.Envelope.Body.agreementDetailsReturn.details.creditAmt,
+				empActSale: payload.Envelope.Body.agreementDetailsReturn.details.empActSale,
+				empDiscAmt: payload.Envelope.Body.agreementDetailsReturn.details.empDiscAmt,
+				empNps: payload.Envelope.Body.agreementDetailsReturn.details.empNps,
+				expireDate: payload.Envelope.Body.agreementDetailsReturn.details.expireDate,
+				installmentIndicator: payload.Envelope.Body.agreementDetailsReturn.details.installmentIndicator,
+				itemCnt: payload.Envelope.Body.agreementDetailsReturn.details.itemCnt,
+				jurisdCityCd: payload.Envelope.Body.agreementDetailsReturn.details.jurisdCityCd,
+				jurisdCitySpecCd: payload.Envelope.Body.agreementDetailsReturn.details.jurisdCitySpecCd,
+				jurisdCountryCd: payload.Envelope.Body.agreementDetailsReturn.details.jurisdCountryCd,
+				jurisdCountrySpecCd: payload.Envelope.Body.agreementDetailsReturn.details.jurisdCountrySpecCd,
+				jurisdOtherCd: payload.Envelope.Body.agreementDetailsReturn.details.jurisdOtherCd,
+				jurisdSpecCd: payload.Envelope.Body.agreementDetailsReturn.details.jurisdSpecCd,
+				jurisdTransitCd: payload.Envelope.Body.agreementDetailsReturn.details.jurisdTransitCd,
+				leadType: payload.Envelope.Body.agreementDetailsReturn.details.leadType,
+				locNo: payload.Envelope.Body.agreementDetailsReturn.details.locNo,
+				marketUnitActSale: payload.Envelope.Body.agreementDetailsReturn.details.marketUnitActSale,
+				monthAmt: payload.Envelope.Body.agreementDetailsReturn.details.monthAmt,
+				monthTaxAmt: payload.Envelope.Body.agreementDetailsReturn.details.monthTaxAmt,
+				origExpireDate: payload.Envelope.Body.agreementDetailsReturn.details.origExpireDate,
+				otherDiscAmt: payload.Envelope.Body.agreementDetailsReturn.details.otherDiscAmt,
+				otherDiscInd: payload.Envelope.Body.agreementDetailsReturn.details.otherDiscInd,
+				paymentMethodInd: payload.Envelope.Body.agreementDetailsReturn.details.paymentMethodInd,
+				paymentTypeInd: payload.Envelope.Body.agreementDetailsReturn.details.paymentTypeInd,
+				planDiscAmt: payload.Envelope.Body.agreementDetailsReturn.details.planDiscAmt,
+				posFl: payload.Envelope.Body.agreementDetailsReturn.details.posFl,
+				priceOriginInd: payload.Envelope.Body.agreementDetailsReturn.details.priceOriginInd,productCd: payload.Envelope.Body.agreementDetailsReturn.details.productCd,
+			productPlanCd: payload.Envelope.Body.agreementDetailsReturn.details.productPlanCd,
+			productType: payload.Envelope.Body.agreementDetailsReturn.details.productType,
+			purchaseAmt: payload.Envelope.Body.agreementDetailsReturn.details.purchaseAmt,
+			purchaseDate: payload.Envelope.Body.agreementDetailsReturn.details.purchaseDate,
+			purchaseTaxAmt: payload.Envelope.Body.agreementDetailsReturn.details.purchaseTaxAmt,
+			purchaser: payload.Envelope.Body.agreementDetailsReturn.details.purchaser,
+			refundAmt: payload.Envelope.Body.agreementDetailsReturn.details.refundAmt,
+			refundCoverCreditAmt: payload.Envelope.Body.agreementDetailsReturn.details.refundCoverCreditAmt,
+			refundTaxAmt: payload.Envelope.Body.agreementDetailsReturn.details.refundTaxAmt,
+			refundTaxCreditAmt: payload.Envelope.Body.agreementDetailsReturn.details.refundTaxCreditAmt,
+			registerNo: payload.Envelope.Body.agreementDetailsReturn.details.registerNo,
+			remainingInstallments: payload.Envelope.Body.agreementDetailsReturn.details.remainingInstallments,
+			salesMarketUnitNo: payload.Envelope.Body.agreementDetailsReturn.details.salesMarketUnitNo,
+			sellingPrice: payload.Envelope.Body.agreementDetailsReturn.details.sellingPrice,
+			startDate: payload.Envelope.Body.agreementDetailsReturn.details.startDate,
+			subLeadCat: payload.Envelope.Body.agreementDetailsReturn.details.subLeadCat,
+			sywrMemID: payload.Envelope.Body.agreementDetailsReturn.details.sywrMemID,
+			taxCountyCd: payload.Envelope.Body.agreementDetailsReturn.details.taxCountyCd,
+			taxExemptData: payload.Envelope.Body.agreementDetailsReturn.details.taxExemptData,
+			taxGeoCd: payload.Envelope.Body.agreementDetailsReturn.details.taxGeoCd,
+			taxRefundInd: payload.Envelope.Body.agreementDetailsReturn.details.taxRefundInd,
+			transDate: payload.Envelope.Body.agreementDetailsReturn.details.transDate,
+			transNo: payload.Envelope.Body.agreementDetailsReturn.details.transNo,
+			unitActSale: payload.Envelope.Body.agreementDetailsReturn.details.unitActSale,
+			unitAllocSale: payload.Envelope.Body.agreementDetailsReturn.details.unitAllocSale,
+			unitNps: payload.Envelope.Body.agreementDetailsReturn.details.unitNps,
+			unitPosSale: payload.Envelope.Body.agreementDetailsReturn.details.unitPosSale,
+			updateCnt: payload.Envelope.Body.agreementDetailsReturn.details.updateCnt
+			}
+		}
+}]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
+				<json-logger:logger doc:name="After transform" doc:id="4ff038f1-e2b5-4151-b6ef-a76637cca6e5" config-ref="JsonLoggerConfig" priority="DEBUG" tracePoint="AFTER_TRANSFORM" message="After transform" />
+			</when>
+			<otherwise>
+				<json-logger:logger doc:name="Before Transform" doc:id="be86fc95-1a9c-4bde-b619-59e62b6bfdfb" config-ref="JsonLoggerConfig" priority="DEBUG" tracePoint="BEFORE_TRANSFORM" message="Before Transform" />
+				<ee:transform doc:name="Transform Message" doc:id="3ef367a5-7d38-4a00-98b7-93e47b37ed32">
+					<ee:message>
+						<ee:set-payload><![CDATA[output application/xml
+---
+payload
+]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
+				<json-logger:logger doc:name="After transform" doc:id="36defe33-502c-447b-a97e-21fae29ef58e" config-ref="JsonLoggerConfig" priority="DEBUG" tracePoint="AFTER_TRANSFORM" message="After transform" />
+			
+</otherwise>
+		</choice>
+	</sub-flow>
+
+</mule>

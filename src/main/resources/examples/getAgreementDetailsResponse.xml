@@ -1,0 +1,104 @@
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+    <soap:Body>
+        <ns4:agreementDetailsReturn xmlns:ns4="http://response.domain.agreementservice.agreement.hs.searshc.com" xmlns:ns3="http://domain.agreementservice.agreement.hs.searshc.com" xmlns:ns2="http://service.agreementservice.agreement.hs.searshc.com">
+            <code>00</code>
+            <messages>SUCCESS</messages>
+            <processId xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            <serverName xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            <subCode xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            <details>
+                <addlAmtAddItems>+0000000</addlAmtAddItems>
+                <addlCharge>+0000000</addlCharge>
+                <agreePayment>
+                    <accountNo>512107******4028</accountNo>
+                    <creditCardExp></creditCardExp>
+                    <creditCardTokenNo>5324660282552170</creditCardTokenNo>
+                    <paymentAmount>+000005999</paymentAmount>
+                    <paymentType>MC</paymentType>
+                    <salesAuthNo>+0022162</salesAuthNo>
+                    <totalRefundAmount>0</totalRefundAmount>
+                </agreePayment>
+                <allowAmt>+000000000</allowAmt>
+                <allowCd>  </allowCd>
+                <apUpdateAuthInd>2</apUpdateAuthInd>
+                <billAddrLocNo>0000</billAddrLocNo>
+                <billContactRecNo>0000</billContactRecNo>
+                <campaignDiscAmt>+0000000</campaignDiscAmt>
+                <campaignId>000009999</campaignId>
+                <cancelInd>N</cancelInd>
+                <capDiscAmt>+0000000</capDiscAmt>
+                <cashAmt>+000000000</cashAmt>
+                <cashRcvdAmt>+000000000</cashRcvdAmt>
+                <chargeBackInd>N</chargeBackInd>
+                <comment1>first sale in TeleService                    </comment1>
+                <comment2>                                             </comment2>
+                <comment3>                                             </comment3>
+                <contactMethodInd> </contactMethodInd>
+                <contactName>test      </contactName>
+                <couponAmt>+000000000</couponAmt>
+                <couponCd>  </couponCd>
+                <couponTaxInd> </couponTaxInd>
+                <coverCreditAmt>+000000000</coverCreditAmt>
+                <coverCreditTaxAmt>+0000000</coverCreditTaxAmt>
+                <coverNoDollarInd>N</coverNoDollarInd>
+                <coverageMonths>+012</coverageMonths>
+                <creditAmt>+000005999</creditAmt>
+                <empActSale>+0011114</empActSale>
+                <empDiscAmt>+0000000</empDiscAmt>
+                <empNps>+0011114</empNps>
+                <expireDate>2020-06-11</expireDate>
+                <installmentIndicator>N</installmentIndicator>
+                <itemCnt>000000001</itemCnt>
+                <jurisdCityCd> </jurisdCityCd>
+                <jurisdCitySpecCd> </jurisdCitySpecCd>
+                <jurisdCountryCd> </jurisdCountryCd>
+                <jurisdCountrySpecCd> </jurisdCountrySpecCd>
+                <jurisdOtherCd> </jurisdOtherCd>
+                <jurisdSpecCd> </jurisdSpecCd>
+                <jurisdTransitCd> </jurisdTransitCd>
+                <leadType>CIAQ</leadType>
+                <locNo>001</locNo>
+                <marketUnitActSale>0009420</marketUnitActSale>
+                <monthAmt>+000499916  </monthAmt>
+                <monthTaxAmt>+000000000</monthTaxAmt>
+                <origExpireDate>2020-06-11</origExpireDate>
+                <otherDiscAmt>+0000000</otherDiscAmt>
+                <otherDiscInd>  </otherDiscInd>
+                <paymentMethodInd>7</paymentMethodInd>
+                <paymentTypeInd>S</paymentTypeInd>
+                <planDiscAmt>+0000000</planDiscAmt>
+                <posFl>Y</posFl>
+                <priceOriginInd>N</priceOriginInd>
+                <productCd>PA1</productCd>
+                <productPlanCd>SAM   </productPlanCd>
+                <productType>SGL   </productType>
+                <purchaseAmt>+000005999</purchaseAmt>
+                <purchaseDate>2019-06-11</purchaseDate>
+                <purchaseTaxAmt>+0000000</purchaseTaxAmt>
+                <purchaser>CIOT01    </purchaser>
+                <refundAmt>+000000000</refundAmt>
+                <refundCoverCreditAmt>+000000000</refundCoverCreditAmt>
+                <refundTaxAmt>+000000000</refundTaxAmt>
+                <refundTaxCreditAmt>+0000000</refundTaxCreditAmt>
+                <registerNo>389</registerNo>
+                <remainingInstallments>0</remainingInstallments>
+                <salesMarketUnitNo>0009420</salesMarketUnitNo>
+                <sellingPrice>+000005999</sellingPrice>
+                <startDate>2019-06-11</startDate>
+                <subLeadCat>SGL   </subLeadCat>
+                <sywrMemID>                </sywrMemID>
+                <taxCountyCd>085</taxCountyCd>
+                <taxExemptData>                         </taxExemptData>
+                <taxGeoCd>00       </taxGeoCd>
+                <taxRefundInd>N</taxRefundInd>
+                <transDate>2019-06-11</transDate>
+                <transNo>2168</transNo>
+                <unitActSale>009420</unitActSale>
+                <unitAllocSale>008398</unitAllocSale>
+                <unitNps>009420</unitNps>
+                <unitPosSale>009420</unitPosSale>
+                <updateCnt>0</updateCnt>
+            </details>
+        </ns4:agreementDetailsReturn>
+    </soap:Body>
+</soap:Envelope>
